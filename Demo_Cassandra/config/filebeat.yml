@@ -1,0 +1,12 @@
+
+filebeat.inputs:
+  - type: log
+    paths:
+      - /var/log/system.log
+
+processors:
+  - drop_fields:
+      fields: ["host","agent", "ecs.version","input.type","log.file.path" ,"log.offset", "log.file.path"]
+    
+output.logstash:
+  hosts: ["logstash:5044"]

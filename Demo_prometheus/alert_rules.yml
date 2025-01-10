@@ -1,0 +1,20 @@
+groups:
+  - name: example-alerts  # Tên nhóm cảnh báo
+    rules:
+      # Cảnh báo khi CPU Usage vượt ngưỡng
+      - alert: HighCPUUsage1  # Tên cảnh báo
+        expr: 100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 50% for the past 2 minutes on instance {{ $labels.instance }}."
+      - alert: memoUse
+        expr: (round(((node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes)/node_memory_MemTotal_bytes)) *100 ) >= 20
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Memo Use above 20% on {{ $labels.instance }}"
+          description: "Memo Use above 20% for the past 1 minutes"

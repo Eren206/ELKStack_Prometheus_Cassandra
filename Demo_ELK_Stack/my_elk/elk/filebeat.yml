@@ -1,0 +1,13 @@
+filebeat.registry.path: /usr/share/filebeat/data/registry  # Thư mục lưu registry của filebeat
+filebeat.registry.flush: 5s  # Ghi trạng thái vào registry mỗi 5 giây
+filebeat.inputs:
+  - type: log
+    paths:
+      - /var/log/testlog
+
+processors:
+  - drop_fields:
+      fields: ["host","agent", "ecs.version","input.type","log.file.path" ,"log.offset", "log.file.path"]
+    
+output.logstash:
+  hosts: ["logstash:5044"]
